@@ -1,0 +1,34 @@
+
+const Discord = require('discord.js');
+exports.run = (client, message, args) => {
+
+  if (!message.guild) return;
+  if (!message.member.hasPermission("ADMINISTRATOR")) return message.reply('Bunun için gerekli iznin yok');
+  let guild = message.guild
+  let rol = message.mentions.roles.first()  
+  let user = message.mentions.members.first() 
+
+  if (!user) return message.reply('**Kime Rol Verceğimi Yazmadın**').catch(console.error);
+  if (rol.length < 1) return message.reply('**Verilcek Rolü Etiketlemelisin!**');
+user.roles.add(rol)
+const embed = new Discord.MessageEmbed()
+        .setDescription(`${user} kullanıcısından başarıyla ${rol} rolü verildi!`)
+        .setFooter('ScareX', client.user.avatarURL)
+        .setColor("RANDOM")
+        .setTimestamp()
+    message.channel.send(embed)
+
+};
+
+exports.conf = {
+  enabled: true,
+  guildOnly: true,
+  aliases: [],
+  permLevel: 0
+};
+
+exports.help = {
+  name: 'rol-ver',
+  description: 'İstediğiniz kişiyi istediğiniz rolü verir.',
+  usage: 'rol-ver [kullanıcı] [@rol]'
+};
